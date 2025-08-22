@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Mvenghaus\FilamentPluginTranslatableInline\Forms\Components;
 
-use Filament\Forms\Components\Component;
-use Filament\Forms\ComponentContainer;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Collection;
 
 class TranslatableContainer extends Component
@@ -51,14 +51,14 @@ class TranslatableContainer extends Component
 
         $containers = [];
 
-        $containers['main'] = ComponentContainer::make($this->getLivewire())
+        $containers['main'] = Schema::make($this->getLivewire())
             ->parentComponent($this)
             ->components([
                 $this->cloneComponent($this->baseComponent, $locales->first())
                     ->required($this->isLocaleRequired($locales->first()))
             ]);
 
-        $containers['additional'] = ComponentContainer::make($this->getLivewire())
+        $containers['additional'] = Schema::make($this->getLivewire())
             ->parentComponent($this)
             ->components(
                 $locales
@@ -85,13 +85,14 @@ class TranslatableContainer extends Component
     public function getTranslatableLocales(): Collection
     {
         $resourceLocales = null;
-        if (method_exists($this->getLivewire(), 'getResource') &&
+        if (
+            method_exists($this->getLivewire(), 'getResource') &&
             method_exists($this->getLivewire()::getResource(), 'getTranslatableLocales')
         ) {
             $resourceLocales = $this->getLivewire()::getResource()::getTranslatableLocales();
         }
 
-        return collect($resourceLocales ?? filament('spatie-laravel-translatable')->getDefaultLocales());
+        return collect($resourceLocales ?? filament('spatie-translatable')->getDefaultLocales());
     }
 
     public function isLocaleStateEmpty(string $locale): bool

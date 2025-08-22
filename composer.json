@@ -24,8 +24,8 @@
   ],
   "require": {
     "php": "^8.2",
-    "filament/forms": "^3.0",
-    "filament/spatie-laravel-translatable-plugin": "^3.0"
+    "filament/forms": "~4.0",
+    "lara-zeus/spatie-translatable": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -43,5 +43,8 @@
     }
   },
   "minimum-stability": "stable",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "require-dev": {
+    "filament/upgrade": "~4.0"
+  }
 }
