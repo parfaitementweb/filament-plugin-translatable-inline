@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mvenghaus\FilamentPluginTranslatableInline;
+namespace Parfaitementweb\FilamentPluginTranslatableInline;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;

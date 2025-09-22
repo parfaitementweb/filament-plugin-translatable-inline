@@ -23,10 +23,10 @@
         "
     >
         <div>
-            {{ $getChildComponentContainer('main') }}
+            {{ $getChildSchema('default') }}
         </div>
 
-        <div class="flex items-center gap-1.5 cursor-pointer select-none my-2"
+        <div class="flex items-center gap-1 cursor-pointer select-none my-3"
              @click="handleOpenState()"
         >
             <div x-show="!open">
@@ -51,8 +51,8 @@
         <div x-ref="additionalContainer"
              x-show="open"
         >
-            <div class="p-4">
-                {{ $getChildComponentContainer('additional') }}
+            <div class="p-3">
+                {{ $getChildSchema('additional') }}
             </div>
         </div>
     </div>

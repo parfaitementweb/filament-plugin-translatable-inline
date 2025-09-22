@@ -1,6 +1,6 @@
 # Filament Plugin - Translatable Inline
 
-This is an addon to [Spatie Translatable](https://filamentphp.com/plugins/filament-spatie-translatable) that allows you to edit your translation directly below the field. 
+This is an addon to [Filament Larazeus Translatable](https://github.com/lara-zeus/spatie-translatable) that allows you to edit your translation directly below the field. 
 
 This approach offers several advantages:
 
@@ -10,15 +10,11 @@ This approach offers several advantages:
 
 ## Screenshots
 
-![Screenshot](https://raw.githubusercontent.com/mvenghaus/filament-plugin-translatable-inline/main/docs/images/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/Parfaitementweb/filament-plugin-translatable-inline/main/docs/images/screenshot.png)
 
 ## Requirements
 
-You need the latest version of Filament v3.
-
-This package is based on:
-- [Spatie Laravel Translatable](https://github.com/spatie/laravel-translatable)
-- [Filament Spatie Translatable Plugin](https://github.com/filamentphp/spatie-laravel-translatable-plugin)
+You need the latest version of Filament v4.
 
 You don't need to install them separately, it's handled via dependencies. 
 
@@ -27,7 +23,7 @@ You don't need to install them separately, it's handled via dependencies.
 Install the package via composer:
 
 ```bash
-composer require mvenghaus/filament-plugin-translatable-inline:"^3.0"
+composer require Parfaitementweb/filament-plugin-translatable-inline:"^4.0"
 ```
 
 ### Configuration
@@ -62,7 +58,7 @@ Instead of having a locale switcher in a dropdown above, you add a container for
 
 ...
 
-use Mvenghaus\FilamentPluginTranslatableInline\Forms\Components\TranslatableContainer;
+use Parfaitementweb\FilamentPluginTranslatableInline\Forms\Components\TranslatableContainer;
 
 ...
 
@@ -96,7 +92,7 @@ Sometimes you might want the field to be required, but only for the primary lang
 
 If you have more than one required locales you can pass an array to this method.
 
-## Tipps & Hints
+## Tips & Hints
 
 ### Validation
 
@@ -119,9 +115,6 @@ n addition, one must specify the locale which is located in the component's meta
 
 ### Empty translations
 
-![Screenshot](https://raw.githubusercontent.com/mvenghaus/filament-plugin-translatable-inline/main/docs/images/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/Parfaitementweb/filament-plugin-translatable-inline/main/docs/images/screenshot.png)
 
 As you can see in the screenshot, the "nl" is not filled and therefore not marked.
-
-# Contact
-If you any questions or you find a bug, please [contact me via email](mailto:support@inklammern.de).

@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mvenghaus\FilamentPluginTranslatableInline\Forms\Components;
+namespace Parfaitementweb\FilamentPluginTranslatableInline\Forms\Components;
 
-use Filament\Forms\Components\Component;
-use Filament\Forms\ComponentContainer;
+use Filament\Schemas\Components\Component;
 use Illuminate\Support\Collection;
 
 class TranslatableContainer extends Component
@@ -17,19 +16,16 @@ class TranslatableContainer extends Component
     protected bool $onlyMainIsRequired = false;
     protected array $requiredLocales = [];
 
-    final public function __construct(array $schema = [])
-    {
-        $this->schema($schema);
-
-        $this->baseComponent = collect($schema)->first();
-        $this->statePath($this->baseComponent->getName());
-    }
-
     public static function make(Component $component): static
     {
-        $static = app(static::class, [
-            'schema' => [$component]
-        ]);
+        /** @var static $static */
+        $static = app(static::class);
+        $static->baseComponent = $component;
+
+        $static->statePath($component->getName());
+
+        $static->schema(fn () => $static->buildSchema());
+
         $static->configure();
 
         return $static;
@@ -40,77 +36,88 @@ class TranslatableContainer extends Component
         return $this->baseComponent->getName();
     }
 
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->baseComponent->getLabel();
     }
 
-    public function getChildComponentContainers(bool $withHidden = false): array
+    protected function buildSchema(): array
     {
         $locales = $this->getTranslatableLocales();
+        if ($locales->isEmpty()) {
+            return [];
+        }
 
-        $containers = [];
+        $main = $locales->first();
 
-        $containers['main'] = ComponentContainer::make($this->getLivewire())
-            ->parentComponent($this)
-            ->components([
-                $this->cloneComponent($this->baseComponent, $locales->first())
-                    ->required($this->isLocaleRequired($locales->first()))
-            ]);
+        $components = [
+            $this->cloneComponent($this->baseComponent, $main)
+                ->required($this->isLocaleRequired($main)),
+        ];
 
-        $containers['additional'] = ComponentContainer::make($this->getLivewire())
-            ->parentComponent($this)
-            ->components(
-                $locales
-                    ->filter(fn(string $locale, int $index) => $index !== 0)
-                    ->map(
-                        fn(string $locale): Component => $this->cloneComponent($this->baseComponent, $locale)
-                            ->required($this->isLocaleRequired($locale))
-                    )
-                    ->all()
-            );
+        $additional = $locales
+            ->skip(1)
+            ->map(function (string $locale) {
+                return $this->cloneComponent($this->baseComponent, $locale)
+                    ->required($this->isLocaleRequired($locale));
+            })
+            ->all();
 
-        return $containers;
+        return [
+            ...$components,
+            ...$additional,
+        ];
     }
 
     public function cloneComponent(Component $component, string $locale): Component
     {
+        $baseLabel = $component->getLabel() ?? $component->getName();
+
         return $component
             ->getClone()
             ->meta('locale', $locale)
-            ->label("{$component->getLabel()} ({$locale})")
+            ->label("{$baseLabel} ({$locale})")
             ->statePath($locale);
     }
 
     public function getTranslatableLocales(): Collection
     {
+        $livewire = $this->getLivewire();
+
         $resourceLocales = null;
-        if (method_exists($this->getLivewire(), 'getResource') &&
-            method_exists($this->getLivewire()::getResource(), 'getTranslatableLocales')
-        ) {
-            $resourceLocales = $this->getLivewire()::getResource()::getTranslatableLocales();
+
+        if ($livewire && method_exists($livewire, 'getResource')) {
+            $resource = $livewire::getResource();
+
+            if ($resource && method_exists($resource, 'getTranslatableLocales')) {
+                $resourceLocales = $resource::getTranslatableLocales();
+            }
         }
 
-        return collect($resourceLocales ?? filament('spatie-laravel-translatable')->getDefaultLocales());
+        $fallback = filament('spatie-translatable')->getDefaultLocales() ?? [];
+
+        return collect($resourceLocales ?? $fallback)->values();
     }
 
     public function isLocaleStateEmpty(string $locale): bool
     {
-        return empty($this->getState()[$locale]);
+        $state = $this->getState() ?? [];
+
+        return empty($state[$locale] ?? null);
     }
 
     public function onlyMainLocaleRequired(): self
     {
         $this->onlyMainIsRequired = true;
 
-        return $this;
+        return $this->schema(fn () => $this->buildSchema());
     }
 
     public function requiredLocales(array $locales): self
     {
         $this->requiredLocales = $locales;
 
-        return $this;
+        return $this->schema(fn () => $this->buildSchema());
     }
 
     private function isLocaleRequired(string $locale): bool
