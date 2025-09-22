@@ -16,21 +16,19 @@ This approach offers several advantages:
 
 You need the latest version of Filament v4.
 
-You don't need to install them separately, it's handled via dependencies. 
-
 ## Installation
 
 Install the package via composer:
 
 ```bash
-composer require Parfaitementweb/filament-plugin-translatable-inline:"^4.0"
+composer require parfaitementweb/filament-plugin-translatable-inline:"^4.0"
 ```
 
 ### Configuration
 
 Since it is based on the Spatie plugin, it must be registered as described in the [documentation](https://github.com/filamentphp/spatie-laravel-translatable-plugin).
 
-> **_NOTE:_** It is important that you don't add the traits and the header action to your form resource pages, or it won't work! Only the trait "Translatable" in your resource is required!
+> **_NOTE:_** It is important that you don't add the Filament traits and the header action to your form resource pages, or it won't work! Only the trait "Translatable" in your resource is required!
 
 Instead of having a locale switcher in a dropdown above, you add a container for each translatable field.
 
@@ -112,9 +110,3 @@ n addition, one must specify the locale which is located in the component's meta
 ```php
 ->afterStateUpdated(fn (Set $set, Component $component, ?string $state) => $set('../slug.' . $component->getMeta('locale'), Str::slug($state))),
 ```
-
-### Empty translations
-
-![Screenshot](https://raw.githubusercontent.com/Parfaitementweb/filament-plugin-translatable-inline/main/docs/images/screenshot.png)
-
-As you can see in the screenshot, the "nl" is not filled and therefore not marked.
