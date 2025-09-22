@@ -23,7 +23,7 @@
         "
     >
         <div>
-            {{ $getChildSchema('default') }}
+            {{ $getChildSchema('main') }}
         </div>
 
         <div class="flex items-center gap-1 cursor-pointer select-none my-3"

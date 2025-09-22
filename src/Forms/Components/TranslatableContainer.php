@@ -45,15 +45,14 @@ class TranslatableContainer extends Component
     {
         $locales = $this->getTranslatableLocales();
         if ($locales->isEmpty()) {
+            $this->childComponents([], 'main');
+            $this->childComponents([], 'additional');
+
             return [];
         }
-
-        $main = $locales->first();
-
-        $components = [
-            $this->cloneComponent($this->baseComponent, $main)
-                ->required($this->isLocaleRequired($main)),
-        ];
+        
+        $mainComponent = $this->cloneComponent($this->baseComponent, (string) $locales->first())
+            ->required($this->isLocaleRequired((string) $locales->first()));
 
         $additional = $locales
             ->skip(1)
@@ -63,10 +62,11 @@ class TranslatableContainer extends Component
             })
             ->all();
 
-        return [
-            ...$components,
-            ...$additional,
-        ];
+        $this->childComponents([$mainComponent], 'main');
+        $this->childComponents($additional, 'additional');
+
+        // Return an empty default schema to prevent duplicate rendering.
+        return [];
     }
 
     public function cloneComponent(Component $component, string $locale): Component
