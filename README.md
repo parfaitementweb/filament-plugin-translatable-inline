@@ -1,6 +1,6 @@
 # Filament Plugin - Translatable Inline
 
-This is an addon to [Filament Larazeus Translatable](https://github.com/lara-zeus/spatie-translatable) that allows you to edit your translation directly below the field. 
+This is an addon to [Filament Larazeus Translatable](https://github.com/lara-zeus/spatie-translatable) that allows you to edit your translation directly below the field.
 
 This approach offers several advantages:
 
@@ -14,7 +14,9 @@ This approach offers several advantages:
 
 ## Requirements
 
-You need the latest version of Filament v4.
+You need the latest version of:
+- Filament v4.
+- [Filament Translatable Plugin](https://github.com/lara-zeus/spatie-translatable)
 
 ## Installation
 
@@ -24,33 +26,17 @@ Install the package via composer:
 composer require parfaitementweb/filament-plugin-translatable-inline:"^4.0"
 ```
 
-### Configuration
-
-Since it is based on the Spatie plugin, it must be registered as described in the [documentation](https://github.com/filamentphp/spatie-laravel-translatable-plugin).
-
-> **_NOTE:_** It is important that you don't add the Filament traits and the header action to your form resource pages, or it won't work! Only the trait "Translatable" in your resource is required!
-
-Instead of having a locale switcher in a dropdown above, you add a container for each translatable field.
-
-**Before**
-```php
-<?php
-
-...
-
-    public static function form(Form $form): Form
-        {
-            return $form
-                ->schema([
-                    Forms\Components\TextInput::make('title')
-                        ->maxLength(255)
-                        ->required()
-                    ,
-
-...
+Also install the [Filament Translatable Plugin](https://github.com/lara-zeus/spatie-translatable), if not already:
+```bash
+composer require lara-zeus/spatie-translatable
 ```
 
-**After**
+### Configuration
+
+It is important that you don't add the Filament traits and the header action to your form resource pages, or it won't work! Only the trait "Translatable" in your resource is required!
+
+Instead of having the locale switcher, wrap your fields in add a TranslatableContainer.
+
 ```php
 <?php
 
@@ -77,8 +63,9 @@ use Parfaitementweb\FilamentPluginTranslatableInline\Forms\Components\Translatab
 ```
 
 For each field that can be translated, simply repeat this process, and you'll be done.
+ 
 
-> **_NOTE:_** You don't have to globally choose between inline or dropdown. Instead, you can choose an option on each page. For instance, it makes sense to have the dropdown in the list view and then use the inline version when editing.
+**_TIP:_** You don't have to globally choose between inline or dropdown. Instead, you can choose an option on each page. For instance, it makes sense to have the dropdown in the list view and then use the inline version when editing.
 
 ### Options
 
