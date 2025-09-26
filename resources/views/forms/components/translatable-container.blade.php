@@ -26,24 +26,28 @@
             {{ $getChildSchema('main') }}
         </div>
 
-        <div class="flex items-center gap-1 cursor-pointer select-none my-3"
+        <div style="display:flex; align-items:center; gap:0.25rem; cursor:pointer; user-select:none; margin-top:0.75rem; margin-bottom:0.75rem;"
              @click="handleOpenState()"
         >
             <div x-show="!open">
-                <x-filament::icon icon="heroicon-c-chevron-right" class="h-5 w-5 text-gray-500 dark:text-gray-400"/>
+                <x-filament::icon icon="heroicon-c-chevron-right" style="height:1.25rem; width:1.25rem;"/>
             </div>
 
             <div x-show="open">
-                <x-filament::icon icon="heroicon-c-chevron-down" class="h-5 w-5 text-gray-500 dark:text-gray-400"/>
+                <x-filament::icon icon="heroicon-c-chevron-down" style="height:1.25rem; width:1.25rem;"/>
             </div>
 
             @foreach($getTranslatableLocales() as $locale)
-                <div class="text-xs rounded-full p-1 shadow-sm ring-2 ring-inset ring-gray-950/10 dark:ring-white/20"
+                <div style="font-size:0.75rem;
+                      border-radius:9999px;
+                      padding:0.25rem;
+                      box-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);
+                      box-shadow:0 0 0 2px rgba(10,10,10,0.1) inset;
                      @if (!$isLocaleStateEmpty($locale))
-                         style="border: 1px forestgreen solid"
+                         border: 1px forestgreen solid;
                         @endif
-                >
-                    <div class="px-1">{{ $locale }}</div>
+                ">
+                    <div style="padding-left:0.25rem; padding-right:0.25rem;">{{ $locale }}</div>
                 </div>
             @endforeach
         </div>
@@ -51,7 +55,7 @@
         <div x-ref="additionalContainer"
              x-show="open"
         >
-            <div class="p-3">
+            <div style="padding: 0.75rem;">
                 {{ $getChildSchema('additional') }}
             </div>
         </div>
