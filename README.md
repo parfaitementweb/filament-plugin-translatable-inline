@@ -1,5 +1,9 @@
 # Filament Plugin - Translatable Inline
 
+[![Latest Version](https://img.shields.io/github/release/parfaitementweb/filament-plugin-translatable-inline.svg?style=flat-square)](https://github.com/parfaitementweb/filament-plugin-translatable-inline/releases)
+[![Total Downloads](https://img.shields.io/packagist/dt/parfaitementweb/filament-plugin-translatable-inline.svg?style=flat-square)](https://packagist.org/packages/parfaitementweb/filament-plugin-translatable-inline)
+    
+
 This is an addon to [Filament Larazeus Translatable](https://github.com/lara-zeus/spatie-translatable) that allows you to edit your translation directly below the field.
 
 This approach offers several advantages:
