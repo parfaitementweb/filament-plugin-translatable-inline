@@ -15,7 +15,7 @@ This approach offers several advantages:
 ## Requirements
 
 You need the latest version of:
-- Filament v4.
+- Filament v4 or v5.
 - [Filament Translatable Plugin](https://github.com/lara-zeus/spatie-translatable)
 
 ## Installation
